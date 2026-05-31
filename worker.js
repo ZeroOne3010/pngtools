@@ -40,8 +40,20 @@ function cleanup(data, width, height, options) {
   }
   return source;
 }
+function countUniqueColors(data) {
+  const pixels = new Uint8ClampedArray(data);
+  const colors = new Set();
+  for (let index = 0; index < pixels.length; index += 4) {
+    colors.add((((pixels[index] * 256 + pixels[index + 1]) * 256 + pixels[index + 2]) * 256) + pixels[index + 3]);
+  }
+  return colors.size;
+}
 self.onmessage = ({ data }) => {
   try {
+    if (data.action === 'countColors') {
+      self.postMessage({ id:data.id, count:countUniqueColors(data.pixels) });
+      return;
+    }
     const result = cleanup(data.pixels, data.width, data.height, data.options);
     self.postMessage({ id:data.id, pixels:result.buffer }, [result.buffer]);
   } catch (error) { self.postMessage({ id:data.id, error:error.message }); }
