@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Offline, browser-only PNG cleanup and editing tools">
+  <title>pngtools — local PNG cleanup</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Private · offline-friendly · browser-only</p>
+      <h1>pngtools</h1>
+      <p>Clean noisy flat colors, rotate images, inspect PNG metadata, and remove exterior black backgrounds. Your files never leave this browser.</p>
+    </div>
+    <span class="privacy-pill">No uploads</span>
+  </header>
+
+  <main>
+    <section class="card upload-card">
+      <div>
+        <h2><span>1</span> Upload PNG</h2>
+        <p>Select a PNG file to start. Processing happens locally in your browser.</p>
+      </div>
+      <label class="file-picker">
+        <input id="fileInput" type="file" accept="image/png,.png">
+        <strong>Choose PNG file</strong>
+        <small id="fileName">No file selected</small>
+      </label>
+      <p id="message" class="message" role="status" aria-live="polite">Ready for a PNG file.</p>
+    </section>
+
+    <div id="workspace" class="workspace" hidden>
+      <section class="card">
+        <div class="section-heading">
+          <div>
+            <h2><span>2</span> Original preview</h2>
+            <p>Drag on the image to select a cleanup preview area. If you do not select one, a center crop is used.</p>
+          </div>
+          <button id="resetSelection" class="secondary">Reset to center crop</button>
+        </div>
+        <div class="canvas-shell selection-shell">
+          <canvas id="originalCanvas" aria-label="Original PNG with selectable preview region"></canvas>
+          <canvas id="selectionCanvas" aria-label="Cleanup preview selection overlay"></canvas>
+        </div>
+        <p id="selectionInfo" class="hint"></p>
+      </section>
+
+      <section class="card">
+        <div class="section-heading">
+          <div>
+            <h2><span>3</span> Cleanup noisy flat colors</h2>
+            <p>This is a tolerant neighborhood cluster filter, not a blur. It changes pixels only when a nearby color cluster strongly agrees and the current color is already close to that cluster.</p>
+          </div>
+          <span class="badge">Live preview</span>
+        </div>
+        <div class="controls-grid">
+          <label>Radius <output id="radiusValue">1</output><input id="radius" type="range" min="1" max="3" value="1"></label>
+          <label>Color threshold <output id="thresholdValue">12</output><input id="threshold" type="range" min="1" max="50" value="12"></label>
+          <label>Minimum agreeing pixels <output id="minAgreeValue">4</output><input id="minAgree" type="range" min="3" max="25" value="4"></label>
+          <label>Iterations <output id="iterationsValue">1</output><input id="iterations" type="range" min="1" max="5" value="1"></label>
+        </div>
+        <div class="check-row">
+          <label><input id="includeAlpha" type="checkbox"> Include alpha in distance</label>
+          <label><input id="opaqueOnly" type="checkbox" checked> Process only fully opaque pixels</label>
+        </div>
+        <div class="preview-grid">
+          <figure><figcaption>Selected original region</figcaption><canvas id="cropOriginal"></canvas></figure>
+          <figure><figcaption>Live cleanup preview</figcaption><canvas id="cropCleaned"></canvas></figure>
+        </div>
+        <div class="button-row">
+          <button id="applyCleanup">Apply cleanup to whole image</button>
+          <button id="downloadCleaned" class="secondary">Download cleaned PNG</button>
+        </div>
+      </section>
+
+      <section class="card two-column">
+        <div>
+          <h2><span>4</span> Rotations</h2>
+          <p>Create a rotated PNG from the current result.</p>
+          <div class="button-row vertical-mobile">
+            <button data-rotate="90">90° clockwise</button>
+            <button data-rotate="180">180°</button>
+            <button data-rotate="270">270° clockwise</button>
+          </div>
+        </div>
+        <div>
+          <h2><span>5</span> Remove exterior black background</h2>
+          <p>Flood-fills only near-black pixels connected to an image edge. Interior black details remain intact. A pixel qualifies when every RGB channel is at or below the threshold.</p>
+          <label>Black threshold <output id="blackThresholdValue">20</output><input id="blackThreshold" type="range" min="0" max="100" value="20"></label>
+          <label>Soft edge feather <output id="featherValue">0</output> px<input id="feather" type="range" min="0" max="5" value="0"></label>
+          <button id="removeBlack">Remove connected exterior black</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-heading">
+          <div>
+            <h2><span>6</span> Result preview</h2>
+            <p id="resultLabel">Current download: Original image</p>
+          </div>
+          <button id="downloadCurrent">Download current result</button>
+        </div>
+        <div class="canvas-shell"><canvas id="resultCanvas" aria-label="Current PNG result"></canvas></div>
+      </section>
+
+      <section class="card">
+        <h2><span>7</span> Metadata</h2>
+        <p>Parsed from the original PNG file. Edited downloads intentionally contain browser-generated PNG data.</p>
+        <div id="metadata" class="metadata"></div>
+      </section>
+    </div>
+  </main>
+  <footer>pngtools runs entirely in your browser. No images are transmitted or stored remotely.</footer>
+  <script src="app.js"></script>
+</body>
+</html>
