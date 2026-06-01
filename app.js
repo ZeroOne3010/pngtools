@@ -28,7 +28,7 @@ function paletteForImage(image){
   const palette=originalPalette.map(color=>color.slice());
   const needsTransparent=image.data.some((value,index)=>index%4===3&&value===0);
   let transparent=palette.findIndex(color=>color[3]===0);
-  if(needsTransparent&&transparent<0){ if(palette.length<256){transparent=palette.length;palette.push([0,0,0,0]);} else {transparent=0;palette[0]=[0,0,0,0];} }
+  if(needsTransparent&&transparent<0){ if(palette.length===256)return null; transparent=palette.length;palette.push([0,0,0,0]); }
   if(transparent>=0)palette[transparent]=[0,0,0,0];
   const indices=new Uint8Array(image.width*image.height), cache=new Map();
   for(let p=0,i=0;p<image.data.length;p+=4,i++){
@@ -43,11 +43,13 @@ function paletteForImage(image){
 function indexedPreview(image,indexed){const pixels=new Uint8ClampedArray(image.data.length); for(let i=0;i<indexed.indices.length;i++) pixels.set(indexed.palette[indexed.indices[i]],i*4); return new ImageData(pixels,image.width,image.height);}
 function updateResultPreviews(){
   setCanvasImage(els.resultCanvas,resultCtx,currentImage);
-  els.paletteOptions.hidden=!originalPalette; els.palettePreview.hidden=!originalPalette;
-  if(!originalPalette){paletteImage=null;return;}
-  paletteImage=paletteForImage(currentImage); setCanvasImage(els.paletteCanvas,paletteCtx,indexedPreview(currentImage,paletteImage)); updatePaletteNote();
+  els.paletteOptions.hidden=!originalPalette;
+  if(!originalPalette){paletteImage=null;els.palettePreview.hidden=true;return;}
+  paletteImage=paletteForImage(currentImage); els.usePalette.disabled=!paletteImage;
+  if(!paletteImage){els.usePalette.checked=false;els.palettePreview.hidden=true;updatePaletteNote();return;}
+  els.palettePreview.hidden=false; setCanvasImage(els.paletteCanvas,paletteCtx,indexedPreview(currentImage,paletteImage)); updatePaletteNote();
 }
-function updatePaletteNote(){ if(!originalPalette)return; els.paletteNote.textContent=els.usePalette.checked?'The download will remain indexed-color. Compare both previews: palette mapping can slightly change edited colors.':'The download will be converted from indexed-color to truecolor + alpha.'; }
+function updatePaletteNote(){ if(!originalPalette)return; els.paletteNote.textContent=!paletteImage?'This edit needs transparency, but the source palette already uses all 256 entries. The download will fall back to truecolor + alpha to avoid a lossy palette replacement.':els.usePalette.checked?'The download will remain indexed-color. Compare both previews: palette mapping can slightly change edited colors.':'The download will be converted from indexed-color to truecolor + alpha.'; }
 function setCurrent(image, name) { currentImage=normalizeTransparentPixels(imageDataCopy(image)); currentName=name; updateResultPreviews(); els.resultLabel.innerHTML=`Current download: <strong>${name}</strong> · ${image.width} × ${image.height}px`; }
 function centerSelection() { const width=Math.min(originalImage.width, Math.max(64,Math.round(originalImage.width*.45))); const height=Math.min(originalImage.height, Math.max(64,Math.round(originalImage.height*.45))); selection={ x:Math.floor((originalImage.width-width)/2), y:Math.floor((originalImage.height-height)/2), width, height }; drawSelection(); schedulePreview(); }
 function drawSelection() { selectionCtx.clearRect(0,0,els.selectionCanvas.width,els.selectionCanvas.height); if (!selection) return; selectionCtx.fillStyle='#087f6b22'; selectionCtx.strokeStyle='#087f6b'; selectionCtx.lineWidth=Math.max(2,Math.min(originalImage.width,originalImage.height)/250); selectionCtx.setLineDash([8,5]); selectionCtx.fillRect(selection.x,selection.y,selection.width,selection.height); selectionCtx.strokeRect(selection.x,selection.y,selection.width,selection.height); els.selectionInfo.textContent=`Cleanup preview area: x ${selection.x}, y ${selection.y}, ${selection.width} × ${selection.height}px. Drag to select a different area.`; }
@@ -78,7 +80,7 @@ async function encodeIndexedPng(image,indexed){
   return new Blob([signature,pngChunk('IHDR',ihdr),pngChunk('PLTE',plte),pngChunk('tRNS',trns),pngChunk('IDAT',await deflate(scanlines)),pngChunk('IEND',new Uint8Array())],{type:'image/png'});
 }
 async function downloadImage(image,suffix){
-  try { let blob; if(originalPalette&&els.usePalette.checked){blob=await encodeIndexedPng(image,paletteForImage(image));} else {const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;canvas.getContext('2d').putImageData(normalizeTransparentPixels(imageDataCopy(image)),0,0);blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));}
+  try { let blob; const indexed=originalPalette&&els.usePalette.checked?paletteForImage(image):null; if(indexed){blob=await encodeIndexedPng(image,indexed);} else {const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;canvas.getContext('2d').putImageData(normalizeTransparentPixels(imageDataCopy(image)),0,0);blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));}
   if(!blob)return fail(new Error('Could not encode the PNG download.')); const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=`pngtools-${suffix}.png`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   } catch(error){fail(error);}
 }

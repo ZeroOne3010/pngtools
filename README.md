@@ -13,7 +13,7 @@ Images are decoded and processed locally in the browser. The application has no 
 - PNG chunk parsing for IHDR, tEXt, zTXt where the browser supports `DecompressionStream`, iTXt, pHYs, gAMA, sRGB, and tIME chunks.
 - Unique decoded RGBA color count.
 - Automatic dominant-edge-color flood fill with an optional tolerance and 0–5 pixel soft edge.
-- Indexed-color source detection, side-by-side palette preview, and optional palette-based PNG downloads after edits.
+- Indexed-color source detection, side-by-side palette preview, and optional palette-based PNG downloads after edits, with a lossless truecolor fallback when a full palette cannot represent new transparency.
 - Normalized transparent pixels whose stored RGBA value is always `(0, 0, 0, 0)`.
 - PNG download for the currently selected result.
 
