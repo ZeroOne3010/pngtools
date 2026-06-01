@@ -12,7 +12,7 @@
     <div>
       <p class="eyebrow">Private · offline-friendly · browser-only</p>
       <h1>pngtools</h1>
-      <p>Clean noisy flat colors, rotate images, inspect PNG metadata, and remove exterior black backgrounds. Your files never leave this browser.</p>
+      <p>Clean noisy flat colors, rotate images, inspect PNG metadata, and remove exterior connected-color backgrounds. Your files never leave this browser.</p>
     </div>
     <span class="privacy-pill">No uploads</span>
   </header>
@@ -86,11 +86,11 @@
           </div>
         </div>
         <div>
-          <h2><span>5</span> Remove exterior black background</h2>
-          <p>Flood-fills only near-black pixels connected to an image edge. Interior black details remain intact. A pixel qualifies when every RGB channel is at or below the threshold.</p>
-          <label>Black threshold <output id="blackThresholdValue">20</output><input id="blackThreshold" type="range" min="0" max="100" value="20"></label>
+          <h2><span>5</span> Remove exterior connected color</h2>
+          <p>Finds the most common exact RGB color along the image edges, then flood-fills only connected pixels close to that color. Interior details of the same color remain intact.</p>
+          <label>Color tolerance <output id="colorToleranceValue">20</output><input id="colorTolerance" type="range" min="0" max="100" value="20"></label>
           <label>Soft edge feather <output id="featherValue">0</output> px<input id="feather" type="range" min="0" max="5" value="0"></label>
-          <button id="removeBlack">Remove connected exterior black</button>
+          <button id="removeConnected">Remove dominant exterior color</button>
         </div>
       </section>
 
@@ -102,7 +102,20 @@
           </div>
           <button id="downloadCurrent">Download current result</button>
         </div>
-        <div class="canvas-shell"><canvas id="resultCanvas" aria-label="Current PNG result"></canvas></div>
+        <div id="paletteOptions" class="palette-options" hidden>
+          <label><input id="usePalette" type="checkbox" checked> Download an indexed-color PNG using a palette</label>
+          <p id="paletteNote" class="hint"></p>
+        </div>
+        <div id="resultPreviews" class="result-previews">
+          <figure>
+            <figcaption>True-color preview</figcaption>
+            <div class="canvas-shell"><canvas id="resultCanvas" aria-label="Current true-color PNG result"></canvas></div>
+          </figure>
+          <figure id="palettePreview" hidden>
+            <figcaption>Palette-based preview</figcaption>
+            <div class="canvas-shell"><canvas id="paletteCanvas" aria-label="Current indexed-color PNG result"></canvas></div>
+          </figure>
+        </div>
       </section>
 
       <section class="card">
