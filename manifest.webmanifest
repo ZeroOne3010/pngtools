@@ -1,0 +1,17 @@
+{
+  "name": "pngtools",
+  "short_name": "pngtools",
+  "description": "Offline, browser-only PNG cleanup and editing tools",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2f6f5",
+  "theme_color": "#087f6b",
+  "icons": [
+    {
+      "src": "icon-large.png",
+      "sizes": "1254x1254",
+      "type": "image/png"
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 `pngtools` is a static, browser-only PNG utility. It cleans microscopic color noise from mostly-flat regions without applying a blur, rotates PNG files, parses useful PNG metadata, counts decoded RGBA colors, and removes backgrounds near the most common edge color with a flood fill.
 
-Images are decoded and processed locally in the browser. The application has no backend, does not upload files, and makes no runtime network requests.
+Images are decoded and processed locally in the browser. The application has no backend, does not upload files, and makes no runtime network requests. Try the hosted app at <https://zeroone3010.github.io/pngtools/>.
 
 ## Features
 
@@ -16,6 +16,7 @@ Images are decoded and processed locally in the browser. The application has no 
 - Indexed-color source detection, side-by-side palette preview, and optional palette-based PNG downloads after edits, with a lossless truecolor fallback when a full palette cannot represent new transparency.
 - Normalized transparent pixels whose stored RGBA value is always `(0, 0, 0, 0)`.
 - PNG download for the currently selected result.
+- Installable Progressive Web App with an offline-cached application shell.
 
 ## Run locally
 
@@ -47,4 +48,4 @@ All asset URLs are relative, so the site works at a project path such as `https:
 
 ## Privacy and offline behavior
 
-After the static files load, all PNG parsing, canvas decoding, filtering, rotation, flood-fill processing, preview rendering, and PNG encoding happen inside the browser. No service worker is needed: the site does not require any API or external asset at runtime. If you want the page itself to reopen without connectivity, save or host these static files locally or use a browser cache policy appropriate for your host.
+After the static files load, all PNG parsing, canvas decoding, filtering, rotation, flood-fill processing, preview rendering, and PNG encoding happen inside the browser. A service worker caches the static application files so the installed Progressive Web App can reopen without connectivity. The site does not require any API or external asset at runtime.
