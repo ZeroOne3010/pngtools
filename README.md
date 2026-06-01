@@ -1,6 +1,6 @@
 # pngtools
 
-`pngtools` is a static, browser-only PNG utility. It cleans microscopic color noise from mostly-flat regions without applying a blur, rotates PNG files, parses useful PNG metadata, counts decoded RGBA colors, and removes edge-connected near-black backgrounds with a flood fill.
+`pngtools` is a static, browser-only PNG utility. It cleans microscopic color noise from mostly-flat regions without applying a blur, rotates PNG files, parses useful PNG metadata, counts decoded RGBA colors, and removes backgrounds near the most common edge color with a flood fill.
 
 Images are decoded and processed locally in the browser. The application has no backend, does not upload files, and makes no runtime network requests.
 
@@ -12,7 +12,9 @@ Images are decoded and processed locally in the browser. The application has no 
 - PNG rotations at 90°, 180°, and 270° clockwise.
 - PNG chunk parsing for IHDR, tEXt, zTXt where the browser supports `DecompressionStream`, iTXt, pHYs, gAMA, sRGB, and tIME chunks.
 - Unique decoded RGBA color count.
-- Edge-connected near-black flood fill with an optional 0–5 pixel soft edge.
+- Automatic dominant-edge-color flood fill with an optional tolerance and 0–5 pixel soft edge.
+- Indexed-color source detection, side-by-side palette preview, and optional palette-based PNG downloads after edits.
+- Normalized transparent pixels whose stored RGBA value is always `(0, 0, 0, 0)`.
 - PNG download for the currently selected result.
 
 ## Run locally
