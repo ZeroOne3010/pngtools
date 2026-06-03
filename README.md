@@ -11,6 +11,7 @@ Images are decoded and processed locally in the browser. The application has no 
 - Double-buffered full-image cleanup in a Web Worker so long operations do not block the interface.
 - Idempotent PNG rotation selection for reset, −90°, 90°, and 180° orientations.
 - PNG chunk parsing for IHDR, tEXt, zTXt where the browser supports `DecompressionStream`, iTXt, pHYs, gAMA, sRGB, and tIME chunks.
+- Non-interlaced PNG scanline filter visualization with per-filter row counts; Adam7 interlaced PNGs are detected but not visualized.
 - Unique decoded RGBA color count.
 - Automatic dominant-edge-color flood fill with an optional tolerance and 0–5 pixel soft edge.
 - Indexed-color source detection, side-by-side palette preview, and optional palette-based PNG downloads after edits, with a lossless truecolor fallback when a full palette cannot represent new transparency.
