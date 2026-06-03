@@ -57,9 +57,29 @@
         <div id="metadata" class="metadata"></div>
       </section>
 
+      <section class="card scanline-card">
+        <h2><span>4</span> Scanline filter visualization</h2>
+        <p>Non-interlaced PNG rows are tinted by their stored scanline filter byte while keeping the decoded image visible.</p>
+        <p id="scanlineStatus" class="scanline-status" role="status" aria-live="polite">Load a PNG to inspect scanline filters.</p>
+        <div class="scanline-layout">
+          <div class="scanline-legend" aria-label="Scanline filter counts">
+            <table>
+              <tbody id="scanlineCounts">
+                <tr><th><span class="filter-swatch none"></span>NONE <code>0</code></th><td>—</td></tr>
+                <tr><th><span class="filter-swatch sub"></span>SUB <code>1</code></th><td>—</td></tr>
+                <tr><th><span class="filter-swatch up"></span>UP <code>2</code></th><td>—</td></tr>
+                <tr><th><span class="filter-swatch average"></span>AVERAGE <code>3</code></th><td>—</td></tr>
+                <tr><th><span class="filter-swatch paeth"></span>PAETH <code>4</code></th><td>—</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="canvas-shell scanline-shell"><canvas id="scanlineCanvas" aria-label="PNG scanline filter visualization"></canvas></div>
+        </div>
+      </section>
+
       <details class="card operation-card" open>
         <summary>
-          <span class="summary-heading"><span class="step-number">4</span> Cleanup noisy flat colors</span>
+          <span class="summary-heading"><span class="step-number">5</span> Cleanup noisy flat colors</span>
           <span class="summary-status"><span class="when-open">Collapse controls</span><span class="when-closed">Controls collapsed — expand to edit</span></span>
         </summary>
         <div class="operation-body">
@@ -92,7 +112,7 @@
 
       <details class="card operation-card" open>
         <summary>
-          <span class="summary-heading"><span class="step-number">5</span> Rotations</span>
+          <span class="summary-heading"><span class="step-number">6</span> Rotations</span>
           <span class="summary-status"><span class="when-open">Collapse controls</span><span class="when-closed">Controls collapsed — expand to edit</span></span>
         </summary>
         <div class="operation-body">
@@ -108,7 +128,7 @@
 
       <details class="card operation-card" open>
         <summary>
-          <span class="summary-heading"><span class="step-number">6</span> Remove exterior connected color</span>
+          <span class="summary-heading"><span class="step-number">7</span> Remove exterior connected color</span>
           <span class="summary-status"><span class="when-open">Collapse controls</span><span class="when-closed">Controls collapsed — expand to edit</span></span>
         </summary>
         <div class="operation-body">
@@ -122,7 +142,7 @@
       <section class="card result-card">
         <div class="section-heading">
           <div>
-            <h2><span>7</span> Result preview</h2>
+            <h2><span>8</span> Result preview</h2>
             <p id="resultLabel">Current download: Original image</p>
           </div>
           <button id="downloadCurrent">Download current result</button>
