@@ -72,3 +72,9 @@ footer { padding:12px 0 32px; color:var(--muted); font-size:.8rem; text-align:ce
 .scanline-shell { max-height:55vh; }
 .scanline-shell canvas { width:100%; border:1px solid var(--line); background:repeating-conic-gradient(#eef2f2 0 25%, #fff 0 50%) 50% / 14px 14px; }
 @media(max-width:650px){ .scanline-layout { grid-template-columns:1fr; } }
+select { width:100%; margin-top:8px; padding:9px 10px; border:1px solid var(--line); border-radius:8px; color:var(--ink); background:#fff; font:inherit; font-weight:650; }
+.disabled-control { opacity:.48; }
+.disabled-control input, .disabled-control select { cursor:not-allowed; }
+.palette-strip { display:flex; flex-wrap:wrap; gap:5px; margin:10px 0 12px; padding:8px; border:1px solid var(--line); border-radius:10px; background:#fbfefd; }
+.palette-chip { width:22px; height:22px; border:1px solid #0003; border-radius:5px; background:linear-gradient(45deg,#ddd 25%,transparent 25%),linear-gradient(-45deg,#ddd 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ddd 75%),linear-gradient(-45deg,transparent 75%,#ddd 75%),var(--chip); background-position:0 0,0 10px,10px -10px,-10px 0; background-size:20px 20px; }
+.reduction-preview canvas { min-height:120px; }

@@ -14,6 +14,7 @@ Images are decoded and processed locally in the browser. The application has no 
 - Non-interlaced PNG scanline filter visualization with per-filter row counts; Adam7 interlaced PNGs are detected but not visualized.
 - Unique decoded RGBA color count.
 - Automatic dominant-edge-color flood fill with an optional tolerance and 0–5 pixel soft edge.
+- Browser-local palette/color reduction for the current result using popularity or median cut quantization, with optional Floyd–Steinberg dithering and indexed PNG downloads.
 - Indexed-color source detection, side-by-side palette preview, and optional palette-based PNG downloads after edits, with a lossless truecolor fallback when a full palette cannot represent new transparency.
 - Normalized transparent pixels whose stored RGBA value is always `(0, 0, 0, 0)`.
 - PNG download for the currently selected result.
@@ -49,4 +50,4 @@ All asset URLs are relative, so the site works at a project path such as `https:
 
 ## Privacy and offline behavior
 
-After the static files load, all PNG parsing, canvas decoding, filtering, rotation, flood-fill processing, preview rendering, and PNG encoding happen inside the browser. A service worker caches the static application files so the installed Progressive Web App can reopen without connectivity. The site does not require any API or external asset at runtime.
+After the static files load, all PNG parsing, canvas decoding, filtering, rotation, flood-fill processing, palette/color reduction, preview rendering, and PNG encoding happen inside the browser. A service worker caches the static application files so the installed Progressive Web App can reopen without connectivity. The site does not require any API or external asset at runtime.
