@@ -112,7 +112,57 @@
 
       <details class="card operation-card" open>
         <summary>
-          <span class="summary-heading"><span class="step-number">6</span> Rotations</span>
+          <span class="summary-heading"><span class="step-number">6</span> Reduce colors</span>
+          <span class="summary-status"><span class="when-open">Collapse controls</span><span class="when-closed">Controls collapsed — expand to edit</span></span>
+        </summary>
+        <div class="operation-body">
+          <div class="section-heading">
+            <div>
+              <p>Generate a small local palette for the current result. Pixels with alpha at or below the cutoff become one transparent entry; all other pixels are quantized as opaque RGB colors for consistent indexed PNG output.</p>
+            </div>
+            <span class="badge">Worker preview</span>
+          </div>
+          <div class="controls-grid">
+            <label>Target colors
+              <select id="reduceTargetColors">
+                <option value="2">2</option>
+                <option value="4">4</option>
+                <option value="16" selected>16</option>
+                <option value="256">256</option>
+              </select>
+            </label>
+            <label>Algorithm
+              <select id="reduceAlgorithm">
+                <option value="median-cut" selected>Median cut</option>
+                <option value="popularity">Popularity</option>
+              </select>
+            </label>
+            <label>Dithering
+              <select id="reduceDithering">
+                <option value="off" selected>Off</option>
+                <option value="floyd-steinberg">Floyd–Steinberg</option>
+              </select>
+            </label>
+            <label id="alphaCutoffControl">Transparent alpha cutoff <output id="alphaCutoffValue">1</output><input id="alphaCutoff" type="range" min="0" max="255" value="1"></label>
+            <label id="sampleStepControl">Sample step <output id="sampleStepValue">1</output><input id="sampleStep" type="range" min="1" max="8" value="1"></label>
+          </div>
+          <p id="reduceStatus" class="hint">Preview a reduced palette before applying it to the current result.</p>
+          <div id="reducePaletteStrip" class="palette-strip" aria-label="Generated palette colors" hidden></div>
+          <div class="preview-grid reduction-preview">
+            <figure><figcaption>Current result</figcaption><canvas id="reduceSourceCanvas"></canvas></figure>
+            <figure><figcaption>Reduced color preview</figcaption><canvas id="reducePreviewCanvas"></canvas></figure>
+          </div>
+          <div class="button-row">
+            <button id="previewReduced">Preview reduced colors</button>
+            <button id="applyReduced">Apply reduced colors</button>
+            <button id="downloadReduced" class="secondary">Download reduced PNG</button>
+          </div>
+        </div>
+      </details>
+
+      <details class="card operation-card" open>
+        <summary>
+          <span class="summary-heading"><span class="step-number">7</span> Rotations</span>
           <span class="summary-status"><span class="when-open">Collapse controls</span><span class="when-closed">Controls collapsed — expand to edit</span></span>
         </summary>
         <div class="operation-body">
@@ -128,7 +178,7 @@
 
       <details class="card operation-card" open>
         <summary>
-          <span class="summary-heading"><span class="step-number">7</span> Remove exterior connected color</span>
+          <span class="summary-heading"><span class="step-number">8</span> Remove exterior connected color</span>
           <span class="summary-status"><span class="when-open">Collapse controls</span><span class="when-closed">Controls collapsed — expand to edit</span></span>
         </summary>
         <div class="operation-body">
@@ -142,7 +192,7 @@
       <section class="card result-card">
         <div class="section-heading">
           <div>
-            <h2><span>8</span> Result preview</h2>
+            <h2><span>9</span> Result preview</h2>
             <p id="resultLabel">Current download: Original image</p>
           </div>
           <button id="downloadCurrent">Download current result</button>
