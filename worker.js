@@ -72,9 +72,12 @@ function popularityPalette(pixels, options, firstOpaque, availableColors) {
 function medianCutPalette(pixels, options, firstOpaque, availableColors) {
   const step = Math.max(1, Math.min(8, options.sampleStep || 1));
   const samples = [];
-  for (let pixel = 0; pixel < pixels.length / 4; pixel += step) {
-    const i = pixel * 4;
+  const addOpaqueSample = (i) => {
     if (pixels[i + 3] > options.alphaCutoff) samples.push([pixels[i], pixels[i + 1], pixels[i + 2], 1]);
+  };
+  for (let pixel = 0; pixel < pixels.length / 4; pixel += step) addOpaqueSample(pixel * 4);
+  if (!samples.length && step > 1) {
+    for (let i = 0; i < pixels.length; i += 4) addOpaqueSample(i);
   }
   if (!samples.length) return [];
   let boxes = [samples];
