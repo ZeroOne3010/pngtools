@@ -52,36 +52,50 @@
       </section>
 
       <section class="card">
-        <div class="section-heading">
-          <div>
-            <h2><span>3</span> Cleanup noisy flat colors</h2>
-            <p>This is a tolerant neighborhood cluster filter, not a blur. It changes pixels only when a nearby color cluster strongly agrees and the current color is already close to that cluster.</p>
-          </div>
-          <span class="badge">Live preview</span>
-        </div>
-        <div class="controls-grid">
-          <label>Radius <output id="radiusValue">1</output><input id="radius" type="range" min="1" max="3" value="1"></label>
-          <label>Color threshold <output id="thresholdValue">12</output><input id="threshold" type="range" min="1" max="50" value="12"></label>
-          <label>Minimum agreeing pixels <output id="minAgreeValue">4</output><input id="minAgree" type="range" min="3" max="25" value="4"></label>
-          <label>Iterations <output id="iterationsValue">1</output><input id="iterations" type="range" min="1" max="5" value="1"></label>
-        </div>
-        <div class="check-row">
-          <label><input id="includeAlpha" type="checkbox"> Include alpha in distance</label>
-          <label><input id="opaqueOnly" type="checkbox" checked> Process only fully opaque pixels</label>
-        </div>
-        <div class="preview-grid">
-          <figure><figcaption>Selected original region</figcaption><canvas id="cropOriginal"></canvas></figure>
-          <figure><figcaption>Live cleanup preview</figcaption><canvas id="cropCleaned"></canvas></figure>
-        </div>
-        <div class="button-row">
-          <button id="applyCleanup">Apply cleanup to whole image</button>
-          <button id="downloadCleaned" class="secondary">Download cleaned PNG</button>
-        </div>
+        <h2><span>3</span> Metadata</h2>
+        <p>Parsed from the original PNG file. Edited downloads intentionally contain browser-generated PNG data.</p>
+        <div id="metadata" class="metadata"></div>
       </section>
 
-      <section class="card two-column">
-        <div>
-          <h2><span>4</span> Rotations</h2>
+      <details class="card operation-card" open>
+        <summary>
+          <span class="summary-heading"><span class="step-number">4</span> Cleanup noisy flat colors</span>
+          <span class="summary-status"><span class="when-open">Collapse controls</span><span class="when-closed">Controls collapsed — expand to edit</span></span>
+        </summary>
+        <div class="operation-body">
+          <div class="section-heading">
+            <div>
+              <p>This is a tolerant neighborhood cluster filter, not a blur. It changes pixels only when a nearby color cluster strongly agrees and the current color is already close to that cluster.</p>
+            </div>
+            <span class="badge">Live preview</span>
+          </div>
+          <div class="controls-grid">
+            <label>Radius <output id="radiusValue">1</output><input id="radius" type="range" min="1" max="3" value="1"></label>
+            <label>Color threshold <output id="thresholdValue">12</output><input id="threshold" type="range" min="1" max="50" value="12"></label>
+            <label>Minimum agreeing pixels <output id="minAgreeValue">4</output><input id="minAgree" type="range" min="3" max="25" value="4"></label>
+            <label>Iterations <output id="iterationsValue">1</output><input id="iterations" type="range" min="1" max="5" value="1"></label>
+          </div>
+          <div class="check-row">
+            <label><input id="includeAlpha" type="checkbox"> Include alpha in distance</label>
+            <label><input id="opaqueOnly" type="checkbox" checked> Process only fully opaque pixels</label>
+          </div>
+          <div class="preview-grid">
+            <figure><figcaption>Selected original region</figcaption><canvas id="cropOriginal"></canvas></figure>
+            <figure><figcaption>Live cleanup preview</figcaption><canvas id="cropCleaned"></canvas></figure>
+          </div>
+          <div class="button-row">
+            <button id="applyCleanup">Apply cleanup to whole image</button>
+            <button id="downloadCleaned" class="secondary">Download cleaned PNG</button>
+          </div>
+        </div>
+      </details>
+
+      <details class="card operation-card" open>
+        <summary>
+          <span class="summary-heading"><span class="step-number">5</span> Rotations</span>
+          <span class="summary-status"><span class="when-open">Collapse controls</span><span class="when-closed">Controls collapsed — expand to edit</span></span>
+        </summary>
+        <div class="operation-body">
           <p>Select an exact rotation for the current result.</p>
           <div class="button-row rotation-row">
             <button data-rotate="0">Reset</button>
@@ -90,19 +104,25 @@
             <button data-rotate="180">180°</button>
           </div>
         </div>
-        <div>
-          <h2><span>5</span> Remove exterior connected color</h2>
+      </details>
+
+      <details class="card operation-card" open>
+        <summary>
+          <span class="summary-heading"><span class="step-number">6</span> Remove exterior connected color</span>
+          <span class="summary-status"><span class="when-open">Collapse controls</span><span class="when-closed">Controls collapsed — expand to edit</span></span>
+        </summary>
+        <div class="operation-body">
           <p>Finds the most common exact RGB color along the image edges, then flood-fills only connected pixels close to that color. Interior details of the same color remain intact.</p>
           <label>Color tolerance <output id="colorToleranceValue">20</output><input id="colorTolerance" type="range" min="0" max="100" value="20"></label>
           <label>Soft edge feather <output id="featherValue">0</output> px<input id="feather" type="range" min="0" max="5" value="0"></label>
           <button id="removeConnected">Remove dominant exterior color</button>
         </div>
-      </section>
+      </details>
 
-      <section class="card">
+      <section class="card result-card">
         <div class="section-heading">
           <div>
-            <h2><span>6</span> Result preview</h2>
+            <h2><span>7</span> Result preview</h2>
             <p id="resultLabel">Current download: Original image</p>
           </div>
           <button id="downloadCurrent">Download current result</button>
@@ -121,12 +141,6 @@
             <div class="canvas-shell"><canvas id="paletteCanvas" aria-label="Current indexed-color PNG result"></canvas></div>
           </figure>
         </div>
-      </section>
-
-      <section class="card">
-        <h2><span>7</span> Metadata</h2>
-        <p>Parsed from the original PNG file. Edited downloads intentionally contain browser-generated PNG data.</p>
-        <div id="metadata" class="metadata"></div>
       </section>
     </div>
   </main>
