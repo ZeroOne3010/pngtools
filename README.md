@@ -9,7 +9,7 @@ Images are decoded and processed locally in the browser. The application has no 
 - Tolerant neighborhood mode/cluster cleanup filter with live selected-region preview.
 - Adjustable cleanup radius, color threshold, minimum agreement count, iteration count, and alpha behavior.
 - Double-buffered full-image cleanup in a Web Worker so long operations do not block the interface.
-- PNG rotations at 90°, 180°, and 270° clockwise.
+- Idempotent PNG rotation selection for reset, −90°, 90°, and 180° orientations.
 - PNG chunk parsing for IHDR, tEXt, zTXt where the browser supports `DecompressionStream`, iTXt, pHYs, gAMA, sRGB, and tIME chunks.
 - Unique decoded RGBA color count.
 - Automatic dominant-edge-color flood fill with an optional tolerance and 0–5 pixel soft edge.

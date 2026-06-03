@@ -1,7 +1,7 @@
 'use strict';
 
 const CACHE_PREFIX = 'pngtools-';
-const CACHE_NAME = `${CACHE_PREFIX}v1`;
+const CACHE_NAME = `${CACHE_PREFIX}v3`;
 const APP_FILES = [
   './',
   'index.html',
