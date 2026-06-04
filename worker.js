@@ -77,7 +77,10 @@ function medianCutPalette(pixels, options, firstOpaque, availableColors) {
   };
   for (let pixel = 0; pixel < pixels.length / 4; pixel += step) addOpaqueSample(pixel * 4);
   if (!samples.length && step > 1) {
-    for (let i = 0; i < pixels.length; i += 4) addOpaqueSample(i);
+    // Shift the sampling grid to the first opaque pixel without exceeding the configured sample density.
+    let firstOpaqueOffset = -1;
+    for (let i = 0; i < pixels.length; i += 4) if (pixels[i + 3] > options.alphaCutoff) { firstOpaqueOffset = i; break; }
+    for (let i = firstOpaqueOffset; i >= 0 && i < pixels.length; i += step * 4) addOpaqueSample(i);
   }
   if (!samples.length) return [];
   let boxes = [samples];
