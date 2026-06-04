@@ -11,12 +11,13 @@ const scanlineCtx = els.scanlineCanvas.getContext('2d');
 const cropOriginalCtx = els.cropOriginal.getContext('2d', { willReadFrequently:true });
 const cropCleanedCtx = els.cropCleaned.getContext('2d');
 const worker = new Worker('worker.js');
-let originalImage = null, currentImage = null, rotationSourceImage = null, currentRotation = 0, cleanedImage = null, originalPalette = null, paletteImage = null, reducedImage = null, reducedPaletteImage = null, currentAppliedReduction = null, currentName = 'result', sourceFileName = 'image.png', reductionTargetGeneration = 0, reductionTargetsAvailable = false, selection = null, dragStart = null, touchStart = null, taskId = 0, uploadGeneration = 0, debounceTimer;
+let originalImage = null, currentImage = null, rotationSourceImage = null, currentRotation = 0, cleanedImage = null, originalPalette = null, paletteImage = null, reducedImage = null, reducedPaletteImage = null, currentAppliedReduction = null, currentName = 'result', sourceFileName = 'image.png', reductionTargetGeneration = 0, reductionTargetsAvailable = false, buttonsDisabled = false, selection = null, dragStart = null, touchStart = null, taskId = 0, uploadGeneration = 0, debounceTimer;
 const pending = new Map();
 worker.onmessage = ({ data }) => { const request = pending.get(data.id); if (!request) return; pending.delete(data.id); data.error ? request.reject(new Error(data.error)) : request.resolve(data); };
 
 function message(text, kind='') { els.message.textContent = text; els.message.className = `message ${kind}`; }
-function disableButtons(disabled) { document.querySelectorAll('button').forEach(button => button.disabled = disabled); if(!disabled&&!reductionTargetsAvailable)[els.previewReduced,els.applyReduced].forEach(button=>button.disabled=true); }
+function updateReductionControlState() { const disabled=buttonsDisabled||!reductionTargetsAvailable; els.reduceTargetColors.disabled=disabled; [els.previewReduced,els.applyReduced].forEach(button=>button.disabled=disabled); }
+function disableButtons(disabled) { buttonsDisabled=disabled; document.querySelectorAll('button').forEach(button => button.disabled = disabled); updateReductionControlState(); }
 function busy(text) { message(`Working: ${text}…`); disableButtons(true); }
 function done(text) { message(text); disableButtons(false); }
 function fail(error) { message(error.message || String(error), 'error'); disableButtons(false); }
@@ -67,8 +68,7 @@ const reductionTargets=[2,4,16,256];
 async function refreshReductionTargets(image){
   const generation=++reductionTargetGeneration;
   reductionTargetsAvailable=false;
-  els.reduceTargetColors.disabled=true;
-  [els.previewReduced,els.applyReduced].forEach(button=>button.disabled=true);
+  updateReductionControlState();
   try {
     const colorCount=await countUniqueColors(image);
     if(generation!==reductionTargetGeneration||image!==currentImage)return;
@@ -77,8 +77,7 @@ async function refreshReductionTargets(image){
     if(available.includes(previous))els.reduceTargetColors.value=String(previous);
     else if(available.length)els.reduceTargetColors.value=String(available[available.length-1]);
     reductionTargetsAvailable=available.length>0;
-    els.reduceTargetColors.disabled=!reductionTargetsAvailable;
-    [els.previewReduced,els.applyReduced].forEach(button=>button.disabled=!reductionTargetsAvailable);
+    updateReductionControlState();
     if(!available.length)els.reduceStatus.textContent=`This image already has ${colorCount.toLocaleString()} colors, so none of the available targets would reduce it.`;
   } catch(error){
     if(generation===reductionTargetGeneration)els.reduceStatus.textContent=`Could not determine valid reduction targets: ${error.message}`;
