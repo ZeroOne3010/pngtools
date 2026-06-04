@@ -144,7 +144,7 @@
               </select>
             </label>
             <label id="alphaCutoffControl">Transparent alpha cutoff <output id="alphaCutoffValue">1</output><input id="alphaCutoff" type="range" min="0" max="255" value="1"></label>
-            <label id="sampleStepControl">Sample step <output id="sampleStepValue">1</output><input id="sampleStep" type="range" min="1" max="8" value="1"></label>
+            <label id="sampleStepControl">Median-cut sample interval <output id="sampleStepValue">1</output><input id="sampleStep" type="range" min="1" max="8" value="1"><small class="control-help">Controls palette analysis only: 1 examines every pixel; 2 examines every second pixel; and so on. Higher values are faster but may miss small color details. Every pixel is still mapped to the finished palette.</small></label>
           </div>
           <p id="reduceStatus" class="hint">Preview a reduced palette before applying it to the current result.</p>
           <div id="reducePaletteStrip" class="palette-strip" aria-label="Generated palette colors" hidden></div>
