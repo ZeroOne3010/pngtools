@@ -12,12 +12,13 @@ Images are decoded and processed locally in the browser. The application has no 
 - Idempotent PNG rotation selection for reset, −90°, 90°, and 180° orientations.
 - PNG chunk parsing for IHDR, tEXt, zTXt where the browser supports `DecompressionStream`, iTXt, pHYs, gAMA, sRGB, and tIME chunks.
 - Non-interlaced PNG scanline filter visualization with per-filter row counts; Adam7 interlaced PNGs are detected but not visualized.
+- Prominent transparency, palette-image, and indexed-color metadata, with full metadata and source palette colors available in nested expanders.
 - Unique decoded RGBA color count.
 - Automatic dominant-edge-color flood fill with an optional tolerance and 0–5 pixel soft edge.
-- Browser-local palette/color reduction for the current result using popularity or median cut quantization, with optional Floyd–Steinberg dithering and indexed PNG downloads.
+- Browser-local palette/color reduction for the current result using popularity or median cut quantization, with optional Floyd–Steinberg dithering, only genuinely smaller target palettes, and indexed PNG downloads.
 - Indexed-color source detection, side-by-side palette preview, and optional palette-based PNG downloads after edits, with a lossless truecolor fallback when a full palette cannot represent new transparency.
 - Normalized transparent pixels whose stored RGBA value is always `(0, 0, 0, 0)`.
-- PNG download for the currently selected result.
+- PNG downloads derived from the uploaded filename, preserving the original name for an unchanged image.
 - Installable Progressive Web App with an offline-cached application shell.
 
 ## Run locally
