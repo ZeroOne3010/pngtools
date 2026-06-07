@@ -74,3 +74,7 @@ select { width:100%; margin-top:8px; padding:9px 10px; border:1px solid var(--li
 .palette-strip { display:flex; flex-wrap:wrap; gap:5px; margin:10px 0 12px; padding:8px; border:1px solid var(--line); border-radius:10px; background:#fbfefd; }
 .palette-chip { width:22px; height:22px; border:1px solid #0003; border-radius:5px; background:var(--chip); }.palette-chip.translucent { background:linear-gradient(var(--chip),var(--chip)),linear-gradient(45deg,#ddd 25%,transparent 25%),linear-gradient(-45deg,#ddd 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ddd 75%),linear-gradient(-45deg,transparent 75%,#ddd 75%),#fff; background-position:0 0,0 0,0 10px,10px -10px,-10px 0,0 0; background-size:auto,20px 20px,20px 20px,20px 20px,20px 20px,auto; }
 .reduction-preview canvas { min-height:120px; }
+
+.resize-algorithm { margin:12px 0 0; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:#fbfefd; }
+.resize-algorithm legend { padding:0 4px; color:var(--muted); font-weight:850; }
+.resize-algorithm label { display:block; margin:7px 0; font-weight:650; }

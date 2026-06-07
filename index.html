@@ -172,7 +172,27 @@
 
       <details class="card operation-card" open>
         <summary>
-          <span class="summary-heading"><span class="step-number">8</span> Remove exterior connected color</span>
+          <span class="summary-heading"><span class="step-number">8</span> Resize</span>
+        </summary>
+        <div class="operation-body">
+          <p>Resize the current result while preserving the image ratio. Downscales default to smooth; 2× upscales default to sharp for small-palette artwork and smooth for full-color images.</p>
+          <div class="button-row resize-row" aria-label="Resize scale">
+            <button data-resize="0.25">25%</button>
+            <button data-resize="0.5">50%</button>
+            <button data-resize="2">200%</button>
+          </div>
+          <fieldset class="resize-algorithm">
+            <legend>Algorithm:</legend>
+            <label><input type="radio" name="resizeMode" value="smooth" checked> Smooth</label>
+            <label><input type="radio" name="resizeMode" value="sharp"> Sharp / pixel-perfect</label>
+          </fieldset>
+          <p id="resizeStatus" class="hint">Choose a scale to resize the current result.</p>
+        </div>
+      </details>
+
+      <details class="card operation-card" open>
+        <summary>
+          <span class="summary-heading"><span class="step-number">9</span> Remove exterior connected color</span>
         </summary>
         <div class="operation-body">
           <p>Finds the most common exact RGB color along the image edges, then flood-fills only connected pixels close to that color. Interior details of the same color remain intact.</p>
@@ -185,7 +205,7 @@
       <section class="card result-card">
         <div class="section-heading">
           <div>
-            <h2><span>9</span> Result preview</h2>
+            <h2><span>10</span> Result preview</h2>
             <p id="resultLabel">Current download: Original image</p>
           </div>
           <button id="downloadCurrent">Download current result</button>
