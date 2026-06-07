@@ -1,6 +1,6 @@
 'use strict';
 const $ = (id) => document.getElementById(id);
-const els = Object.fromEntries(['fileInput','fileName','message','workspace','originalCanvas','selectionCanvas','selectionInfo','resetSelection','cropOriginal','cropCleaned','radius','threshold','minAgree','iterations','includeAlpha','opaqueOnly','applyCleanup','downloadCleaned','reduceTargetColors','reduceAlgorithm','reduceDithering','alphaCutoffControl','alphaCutoff','alphaCutoffValue','sampleStepControl','sampleStep','sampleStepValue','reduceStatus','reducePaletteStrip','reduceSourceCanvas','reducePreviewCanvas','previewReduced','applyReduced','downloadReduced','resizeStatus','resultCanvas','resultLabel','downloadCurrent','colorTolerance','colorToleranceValue','feather','featherValue','removeConnected','paletteOptions','usePalette','paletteNote','palettePreview','paletteCanvas','metadata','scanlineStatus','scanlineCounts','scanlineCanvas'].map(id => [id,$(id)]));
+const els = Object.fromEntries(['fileInput','fileName','message','workspace','originalCanvas','selectionCanvas','selectionInfo','resetSelection','cropOriginal','cropCleaned','radius','threshold','minAgree','iterations','includeAlpha','opaqueOnly','applyCleanup','downloadCleaned','reduceTargetColors','reduceAlgorithm','reduceDithering','alphaCutoffControl','alphaCutoff','alphaCutoffValue','sampleStepControl','sampleStep','sampleStepValue','reduceStatus','reducePaletteStrip','reduceSourceCanvas','reducePreviewCanvas','previewReduced','applyReduced','downloadReduced','resizeStatus','resultCanvas','resultLabel','downloadCurrent','colorTolerance','colorToleranceValue','feather','featherValue','cropConnected','removeConnected','paletteOptions','usePalette','paletteNote','palettePreview','paletteCanvas','metadata','scanlineStatus','scanlineCounts','scanlineCanvas'].map(id => [id,$(id)]));
 const originalCtx = els.originalCanvas.getContext('2d', { willReadFrequently:true });
 const selectionCtx = els.selectionCanvas.getContext('2d');
 const resultCtx = els.resultCanvas.getContext('2d', { willReadFrequently:true });
@@ -151,10 +151,31 @@ function dominantEdgeColor({width,height,data}){
   return dominant;
 }
 function hexColor(color){return `#${color.map(channel=>channel.toString(16).padStart(2,'0')).join('')}`;}
+function cropToVisibleBoundingBox(image){
+  const {width,height,data}=image;
+  let minX=width, minY=height, maxX=-1, maxY=-1;
+  for(let y=0;y<height;y++) for(let x=0;x<width;x++){
+    const alpha=data[(y*width+x)*4+3];
+    if(alpha){ if(x<minX)minX=x; if(y<minY)minY=y; if(x>maxX)maxX=x; if(y>maxY)maxY=y; }
+  }
+  if(maxX<0)return { image, cropped:false, empty:true };
+  const croppedWidth=maxX-minX+1, croppedHeight=maxY-minY+1;
+  if(croppedWidth===width&&croppedHeight===height)return { image, cropped:false, empty:false };
+  const cropped=new ImageData(croppedWidth,croppedHeight);
+  for(let y=0;y<croppedHeight;y++){
+    const sourceStart=((minY+y)*width+minX)*4, sourceEnd=sourceStart+croppedWidth*4;
+    cropped.data.set(data.slice(sourceStart,sourceEnd),y*croppedWidth*4);
+  }
+  return { image:cropped, cropped:true, empty:false, bounds:{ x:minX, y:minY, width:croppedWidth, height:croppedHeight } };
+}
 els.colorTolerance.addEventListener('input',()=>els.colorToleranceValue.value=els.colorTolerance.value); els.feather.addEventListener('input',()=>els.featherValue.value=els.feather.value);
-els.removeConnected.addEventListener('click',()=>{ if(!currentImage)return fail(new Error('Choose a PNG file first.')); busy('finding and flood-filling the dominant exterior color'); requestAnimationFrame(()=>{ try { const image=imageDataCopy(currentImage), {width,height,data}=image, color=dominantEdgeColor(image), tolerance=+els.colorTolerance.value, limit=tolerance*tolerance*3, feather=+els.feather.value, seen=new Uint8Array(width*height), exterior=[]; const qualifies=i=>{const p=i*4,dr=data[p]-color[0],dg=data[p+1]-color[1],db=data[p+2]-color[2];return dr*dr+dg*dg+db*db<=limit;}; const queue=[]; const add=i=>{if(!seen[i]&&qualifies(i)){seen[i]=1;queue.push(i);}}; for(let x=0;x<width;x++){add(x);add((height-1)*width+x);} for(let y=0;y<height;y++){add(y*width);add(y*width+width-1);} for(let head=0;head<queue.length;head++){const i=queue[head],x=i%width,y=(i/width)|0; exterior.push(i); data[i*4]=data[i*4+1]=data[i*4+2]=data[i*4+3]=0; if(x)add(i-1);if(x+1<width)add(i+1);if(y)add(i-width);if(y+1<height)add(i+width);}
+els.removeConnected.addEventListener('click',()=>{ if(!currentImage)return fail(new Error('Choose a PNG file first.')); const cropAfterFill=els.cropConnected.checked; busy(`${cropAfterFill?'finding, flood-filling, and cropping':'finding and flood-filling'} the dominant exterior color`); requestAnimationFrame(()=>{ try { const image=imageDataCopy(currentImage), {width,height,data}=image, color=dominantEdgeColor(image), tolerance=+els.colorTolerance.value, limit=tolerance*tolerance*3, feather=+els.feather.value, seen=new Uint8Array(width*height), exterior=[]; const qualifies=i=>{const p=i*4,dr=data[p]-color[0],dg=data[p+1]-color[1],db=data[p+2]-color[2];return dr*dr+dg*dg+db*db<=limit;}; const queue=[]; const add=i=>{if(!seen[i]&&qualifies(i)){seen[i]=1;queue.push(i);}}; for(let x=0;x<width;x++){add(x);add((height-1)*width+x);} for(let y=0;y<height;y++){add(y*width);add(y*width+width-1);} for(let head=0;head<queue.length;head++){const i=queue[head],x=i%width,y=(i/width)|0; exterior.push(i); data[i*4]=data[i*4+1]=data[i*4+2]=data[i*4+3]=0; if(x)add(i-1);if(x+1<width)add(i+1);if(y)add(i-width);if(y+1<height)add(i+width);}
       if(feather){ let frontier=exterior; for(let layer=1;layer<=feather;layer++){const next=[]; for(const i of frontier){const x=i%width,y=(i/width)|0; for(const n of [x?i-1:-1,x+1<width?i+1:-1,y?i-width:-1,y+1<height?i+width:-1]) if(n>=0&&!seen[n]){seen[n]=1;next.push(n); data[n*4+3]=Math.min(data[n*4+3],Math.round(255*layer/(feather+1)));}} frontier=next; } }
-      commitCurrentEdit(image,'Exterior connected color removed'); done(`Removed ${exterior.length.toLocaleString()} exterior pixels near dominant edge color ${hexColor(color)}. The result is selected for download.`); } catch(error){fail(error);} }); });
+      const cropResult=cropAfterFill?cropToVisibleBoundingBox(image):{ image, cropped:false, empty:false };
+      const label=cropResult.cropped?'Exterior connected color removed + cropped':'Exterior connected color removed';
+      commitCurrentEdit(cropResult.image,label);
+      const cropMessage=cropResult.empty?' The image is fully transparent, so no crop was applied.':cropResult.cropped?` Cropped to ${cropResult.bounds.width} × ${cropResult.bounds.height}px at x ${cropResult.bounds.x}, y ${cropResult.bounds.y}.`:cropAfterFill?' No transparent border remained to crop.':'';
+      done(`Removed ${exterior.length.toLocaleString()} exterior pixels near dominant edge color ${hexColor(color)}.${cropMessage} The result is selected for download.`); } catch(error){fail(error);} }); });
 
 function hasPngSignature(buffer){ return [...new Uint8Array(buffer,0,8)].join(',')==='137,80,78,71,13,10,26,10'; }
 const decodeLatin=(bytes)=>new TextDecoder('latin1').decode(bytes), decodeUtf8=(bytes)=>new TextDecoder().decode(bytes);

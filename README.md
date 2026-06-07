@@ -15,7 +15,7 @@ Images are decoded and processed locally in the browser. The application has no 
 - Non-interlaced PNG scanline filter visualization with per-filter row counts; Adam7 interlaced PNGs are detected but not visualized.
 - Prominent transparency, palette-image, and indexed-color metadata, with full metadata and source palette colors available in nested expanders.
 - Unique decoded RGBA color count.
-- Automatic dominant-edge-color flood fill with an optional tolerance and 0–5 pixel soft edge.
+- Automatic dominant-edge-color flood fill with an optional tolerance, 0–5 pixel soft edge, and auto-crop to the visible bounding box.
 - Browser-local palette/color reduction for the current result using popularity or median cut quantization, with optional Floyd–Steinberg dithering, only genuinely smaller target palettes, and indexed PNG downloads.
 - Indexed-color source detection, side-by-side palette preview, and optional palette-based PNG downloads after edits, with a lossless truecolor fallback when a full palette cannot represent new transparency.
 - Normalized transparent pixels whose stored RGBA value is always `(0, 0, 0, 0)`.

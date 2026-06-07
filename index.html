@@ -198,6 +198,9 @@
           <p>Finds the most common exact RGB color along the image edges, then flood-fills only connected pixels close to that color. Interior details of the same color remain intact.</p>
           <label>Color tolerance <output id="colorToleranceValue">20</output><input id="colorTolerance" type="range" min="0" max="100" value="20"></label>
           <label>Soft edge feather <output id="featherValue">0</output> px<input id="feather" type="range" min="0" max="5" value="0"></label>
+          <div class="check-row">
+            <label><input id="cropConnected" type="checkbox"> Also crop to the visible bounding box after removal</label>
+          </div>
           <button id="removeConnected">Remove dominant exterior color</button>
         </div>
       </details>
