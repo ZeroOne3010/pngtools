@@ -52,3 +52,6 @@ All asset URLs are relative, so the site works at a project path such as `https:
 ## Privacy and offline behavior
 
 After the static files load, all PNG parsing, canvas decoding, filtering, rotation, flood-fill processing, palette/color reduction, preview rendering, and PNG encoding happen inside the browser. A service worker caches the static application files so the installed Progressive Web App can reopen without connectivity. The site does not require any API or external asset at runtime.
+
+---
+✨ Made with vibes ✨
