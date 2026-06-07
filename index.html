@@ -18,13 +18,12 @@
       <h1>pngtools</h1>
       <p>Clean noisy flat colors, rotate images, inspect PNG metadata, and remove exterior connected-color backgrounds. Your files never leave this browser.</p>
     </div>
-    <span class="privacy-pill">No uploads</span>
   </header>
 
   <main>
     <section class="card upload-card">
       <div>
-        <h2><span>1</span> Upload PNG</h2>
+        <h2><span>1</span> Select PNG</h2>
         <p>Select a PNG file to start. Processing happens locally in your browser.</p>
       </div>
       <label class="file-picker">
@@ -35,11 +34,14 @@
       <p id="message" class="message" role="status" aria-live="polite">Ready for a PNG file.</p>
     </section>
 
-    <div id="workspace" class="workspace" hidden>
-      <section class="card">
+    <div id="workspace" class="workspace">
+      <details class="card step-card">
+        <summary>
+          <span class="summary-heading"><span class="step-number">2</span> Original preview</span>
+        </summary>
+        <div class="step-body">
         <div class="section-heading">
           <div>
-            <h2><span>2</span> Original preview</h2>
             <p>Drag on the image to select a cleanup preview area. On a touch screen, tap the top-left corner and then the bottom-right corner. If you do not select one, a center crop is used.</p>
           </div>
           <button id="resetSelection" class="secondary">Reset to center crop</button>
@@ -49,16 +51,24 @@
           <canvas id="selectionCanvas" aria-label="Cleanup preview selection overlay"></canvas>
         </div>
         <p id="selectionInfo" class="hint"></p>
-      </section>
+        </div>
+      </details>
 
-      <section class="card">
-        <h2><span>3</span> Metadata</h2>
+      <details class="card step-card">
+        <summary>
+          <span class="summary-heading"><span class="step-number">3</span> Metadata</span>
+        </summary>
+        <div class="step-body">
         <p>Key properties from the original PNG file. Expand the details for the complete parsed metadata.</p>
         <div id="metadata" class="metadata"></div>
-      </section>
+        </div>
+      </details>
 
-      <section class="card scanline-card">
-        <h2><span>4</span> Scanline filter visualization</h2>
+      <details class="card step-card scanline-card">
+        <summary>
+          <span class="summary-heading"><span class="step-number">4</span> Scanline filter visualization</span>
+        </summary>
+        <div class="step-body scanline-body">
         <p>Non-interlaced PNG rows are tinted by their stored scanline filter byte while keeping the decoded image visible.</p>
         <p id="scanlineStatus" class="scanline-status" role="status" aria-live="polite">Load a PNG to inspect scanline filters.</p>
         <div class="scanline-layout">
@@ -75,9 +85,10 @@
           </div>
           <div class="canvas-shell scanline-shell"><canvas id="scanlineCanvas" aria-label="PNG scanline filter visualization"></canvas></div>
         </div>
-      </section>
+        </div>
+      </details>
 
-      <details class="card operation-card" open>
+      <details class="card operation-card">
         <summary>
           <span class="summary-heading"><span class="step-number">5</span> Cleanup noisy flat colors</span>
         </summary>
@@ -109,7 +120,7 @@
         </div>
       </details>
 
-      <details class="card operation-card" open>
+      <details class="card operation-card">
         <summary>
           <span class="summary-heading"><span class="step-number">6</span> Reduce colors</span>
         </summary>
@@ -155,7 +166,7 @@
         </div>
       </details>
 
-      <details class="card operation-card" open>
+      <details class="card operation-card">
         <summary>
           <span class="summary-heading"><span class="step-number">7</span> Rotations</span>
         </summary>
@@ -170,7 +181,7 @@
         </div>
       </details>
 
-      <details class="card operation-card" open>
+      <details class="card operation-card">
         <summary>
           <span class="summary-heading"><span class="step-number">8</span> Resize</span>
         </summary>
@@ -190,7 +201,7 @@
         </div>
       </details>
 
-      <details class="card operation-card" open>
+      <details class="card operation-card">
         <summary>
           <span class="summary-heading"><span class="step-number">9</span> Remove exterior connected color</span>
         </summary>
@@ -205,10 +216,13 @@
         </div>
       </details>
 
-      <section class="card result-card">
+      <details class="card step-card result-card">
+        <summary>
+          <span class="summary-heading"><span class="step-number">10</span> Result preview</span>
+        </summary>
+        <div class="step-body">
         <div class="section-heading">
           <div>
-            <h2><span>10</span> Result preview</h2>
             <p id="resultLabel">Current download: Original image</p>
           </div>
           <button id="downloadCurrent">Download current result</button>
@@ -227,7 +241,8 @@
             <div class="canvas-shell"><canvas id="paletteCanvas" aria-label="Current indexed-color PNG result"></canvas></div>
           </figure>
         </div>
-      </section>
+        </div>
+      </details>
     </div>
   </main>
   <footer>pngtools runs entirely in your browser. No images are transmitted or stored remotely. <a href="https://github.com/ZeroOne3010/pngtools/">View the source on GitHub.</a></footer>
