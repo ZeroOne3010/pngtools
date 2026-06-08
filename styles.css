@@ -19,7 +19,7 @@ p { margin:4px 0 12px; line-height:1.5; color:var(--muted); }
 .message.warn { color:#735400; background:var(--warn); }.message.error { color:var(--danger); background:#ffe8e5; }
 .workspace { display:grid; gap:0; }.section-heading { display:flex; align-items:start; justify-content:space-between; gap:16px; }
 .canvas-shell { display:grid; place-items:center; max-height:70vh; overflow:auto; padding:10px; border-radius:10px; background:repeating-conic-gradient(#eef2f2 0 25%, #fff 0 50%) 50% / 20px 20px; }
-.selection-shell { position:relative; min-height:180px; }.selection-shell canvas { grid-area:1/1; }.selection-shell #selectionCanvas { cursor:crosshair; touch-action:none; }
+.selection-shell { position:relative; min-height:180px; }.selection-shell canvas { grid-area:1/1; }.selection-shell #selectionCanvas { cursor:crosshair; touch-action:none; }.selection-shell #selectionCanvas.disabled-canvas { cursor:not-allowed; }
 canvas { display:block; max-width:100%; height:auto; image-rendering:auto; }
 .hint { font-size:.86rem; }.controls-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; margin:16px 0; }
 label { display:block; color:var(--ink); font-size:.9rem; font-weight:700; } output { color:var(--brand-dark); }

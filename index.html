@@ -44,11 +44,11 @@
           <div>
             <p>Drag on the image to select a cleanup preview area. On a touch screen, tap the top-left corner and then the bottom-right corner. If you do not select one, a center crop is used.</p>
           </div>
-          <button id="resetSelection" class="secondary">Reset to center crop</button>
+          <button id="resetSelection" class="secondary" disabled>Reset to center crop</button>
         </div>
         <div class="canvas-shell selection-shell">
           <canvas id="originalCanvas" aria-label="Original PNG with selectable preview region"></canvas>
-          <canvas id="selectionCanvas" aria-label="Cleanup preview selection overlay"></canvas>
+          <canvas id="selectionCanvas" class="disabled-canvas" aria-label="Cleanup preview selection overlay" aria-disabled="true"></canvas>
         </div>
         <p id="selectionInfo" class="hint"></p>
         </div>
