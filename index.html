@@ -212,7 +212,10 @@
           <div class="check-row">
             <label><input id="cropConnected" type="checkbox"> Also crop to the visible bounding box after removal</label>
           </div>
-          <button id="removeConnected">Remove dominant exterior color</button>
+          <div class="button-row">
+            <button id="removeConnected">Remove dominant exterior color</button>
+            <button id="resetCurrentFromConnected" class="secondary" disabled>Reset current result</button>
+          </div>
         </div>
       </details>
 
@@ -225,7 +228,10 @@
           <div>
             <p id="resultLabel">Current download: Original image</p>
           </div>
-          <button id="downloadCurrent">Download current result</button>
+          <div class="button-row result-actions">
+            <button id="resetCurrent" class="secondary" disabled>Reset current result</button>
+            <button id="downloadCurrent">Download current result</button>
+          </div>
         </div>
         <div id="paletteOptions" class="palette-options" hidden>
           <label><input id="usePalette" type="checkbox" checked> Download an indexed-color PNG using a palette</label>
