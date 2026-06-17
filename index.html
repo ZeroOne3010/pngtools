@@ -46,6 +46,7 @@
           </div>
           <button id="resetSelection" class="secondary" disabled>Reset to center crop</button>
         </div>
+        <div id="metadataBadges" class="metadata-badges" aria-label="Key PNG metadata badges"></div>
         <div class="canvas-shell selection-shell">
           <canvas id="originalCanvas" aria-label="Original PNG with selectable preview region"></canvas>
           <canvas id="selectionCanvas" class="disabled-canvas" aria-label="Cleanup preview selection overlay" aria-disabled="true"></canvas>
@@ -59,7 +60,7 @@
           <span class="summary-heading"><span class="step-number">3</span> Metadata</span>
         </summary>
         <div class="step-body">
-        <p>Key properties from the original PNG file. Expand the details for the complete parsed metadata.</p>
+        <p>Complete parsed metadata from the original PNG file.</p>
         <div id="metadata" class="metadata"></div>
         </div>
       </details>
