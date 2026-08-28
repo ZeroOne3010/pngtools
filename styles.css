@@ -48,7 +48,9 @@ footer { padding:12px 0 32px; color:var(--muted); font-size:.8rem; text-align:ce
 .operation-body > p:first-child, .operation-body .section-heading, .step-body > p:first-child, .step-body .section-heading { margin-top:14px; }
 .operation-card:not([open]), .step-card:not([open]) { background:#fbfefd; }
 .result-card { border-color:#a8d9ce; }
-.scanline-card { display:grid; gap:10px; }
+.metadata-scanline { margin-top:14px; border:1px solid var(--line); border-radius:10px; background:#fbfefd; }
+.metadata-scanline > summary { padding:12px; color:var(--ink); cursor:pointer; font-size:.9rem; font-weight:800; }
+.scanline-body { padding:0 12px 12px; }
 .scanline-status { margin:0; padding:10px 12px; border-radius:8px; color:var(--brand-dark); background:var(--soft); font-size:.88rem; font-weight:700; }
 .scanline-status.warn { color:#735400; background:var(--warn); }
 .scanline-status.error { color:var(--danger); background:#ffe8e5; }
