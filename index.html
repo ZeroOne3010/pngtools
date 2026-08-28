@@ -62,36 +62,33 @@
         <div class="step-body">
         <p>Complete parsed metadata from the original PNG file.</p>
         <div id="metadata" class="metadata"></div>
-        </div>
-      </details>
-
-      <details class="card step-card scanline-card">
-        <summary>
-          <span class="summary-heading"><span class="step-number">4</span> Scanline filter visualization</span>
-        </summary>
-        <div class="step-body scanline-body">
-        <p>Non-interlaced PNG rows are tinted by their stored scanline filter byte while keeping the decoded image visible.</p>
-        <p id="scanlineStatus" class="scanline-status" role="status" aria-live="polite">Load a PNG to inspect scanline filters.</p>
-        <div class="scanline-layout">
-          <div class="scanline-legend" aria-label="Scanline filter counts">
-            <table>
-              <tbody id="scanlineCounts">
-                <tr><th><span class="filter-swatch none"></span>NONE <code>0</code></th><td>—</td></tr>
-                <tr><th><span class="filter-swatch sub"></span>SUB <code>1</code></th><td>—</td></tr>
-                <tr><th><span class="filter-swatch up"></span>UP <code>2</code></th><td>—</td></tr>
-                <tr><th><span class="filter-swatch average"></span>AVERAGE <code>3</code></th><td>—</td></tr>
-                <tr><th><span class="filter-swatch paeth"></span>PAETH <code>4</code></th><td>—</td></tr>
-              </tbody>
-            </table>
+        <details class="metadata-scanline">
+          <summary>Scanline filter visualization</summary>
+          <div class="scanline-body">
+            <p>Non-interlaced PNG rows are tinted by their stored scanline filter byte while keeping the decoded image visible.</p>
+            <p id="scanlineStatus" class="scanline-status" role="status" aria-live="polite">Load a PNG to inspect scanline filters.</p>
+            <div class="scanline-layout">
+              <div class="scanline-legend" aria-label="Scanline filter counts">
+                <table>
+                  <tbody id="scanlineCounts">
+                    <tr><th><span class="filter-swatch none"></span>NONE <code>0</code></th><td>—</td></tr>
+                    <tr><th><span class="filter-swatch sub"></span>SUB <code>1</code></th><td>—</td></tr>
+                    <tr><th><span class="filter-swatch up"></span>UP <code>2</code></th><td>—</td></tr>
+                    <tr><th><span class="filter-swatch average"></span>AVERAGE <code>3</code></th><td>—</td></tr>
+                    <tr><th><span class="filter-swatch paeth"></span>PAETH <code>4</code></th><td>—</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="canvas-shell scanline-shell"><canvas id="scanlineCanvas" aria-label="PNG scanline filter visualization"></canvas></div>
+            </div>
           </div>
-          <div class="canvas-shell scanline-shell"><canvas id="scanlineCanvas" aria-label="PNG scanline filter visualization"></canvas></div>
-        </div>
+        </details>
         </div>
       </details>
 
       <details class="card operation-card">
         <summary>
-          <span class="summary-heading"><span class="step-number">5</span> Cleanup noisy flat colors</span>
+          <span class="summary-heading"><span class="step-number">4</span> Cleanup noisy flat colors</span>
         </summary>
         <div class="operation-body">
           <div class="section-heading">
@@ -123,7 +120,7 @@
 
       <details class="card operation-card">
         <summary>
-          <span class="summary-heading"><span class="step-number">6</span> Reduce colors</span>
+          <span class="summary-heading"><span class="step-number">5</span> Reduce colors</span>
         </summary>
         <div class="operation-body">
           <div class="section-heading">
@@ -169,7 +166,7 @@
 
       <details class="card operation-card">
         <summary>
-          <span class="summary-heading"><span class="step-number">7</span> Rotations</span>
+          <span class="summary-heading"><span class="step-number">6</span> Rotations</span>
         </summary>
         <div class="operation-body">
           <p>Select an exact rotation for the current result.</p>
@@ -184,7 +181,7 @@
 
       <details class="card operation-card">
         <summary>
-          <span class="summary-heading"><span class="step-number">8</span> Resize</span>
+          <span class="summary-heading"><span class="step-number">7</span> Resize</span>
         </summary>
         <div class="operation-body">
           <p>Resize the current result while preserving the image ratio. Downscales default to smooth; 2× upscales default to sharp for small-palette artwork and smooth for full-color images.</p>
@@ -204,7 +201,7 @@
 
       <details class="card operation-card">
         <summary>
-          <span class="summary-heading"><span class="step-number">9</span> Remove exterior connected color</span>
+          <span class="summary-heading"><span class="step-number">8</span> Remove exterior connected color</span>
         </summary>
         <div class="operation-body">
           <p>Finds the most common exact RGB color along the image edges, then flood-fills only connected pixels close to that color. Interior details of the same color remain intact.</p>
@@ -222,7 +219,7 @@
 
       <details class="card step-card result-card">
         <summary>
-          <span class="summary-heading"><span class="step-number">10</span> Result preview</span>
+          <span class="summary-heading"><span class="step-number">9</span> Result preview</span>
         </summary>
         <div class="step-body">
         <div class="section-heading">
