@@ -4,6 +4,8 @@
 
 Images are decoded and processed locally in the browser. The application has no backend, does not upload files, and makes no runtime network requests. Try the hosted app at <https://zeroone3010.github.io/pngtools/>.
 
+![Screenshot](pngtools.png)
+
 ## Features
 
 - Tolerant neighborhood mode/cluster cleanup filter with live selected-region preview.
